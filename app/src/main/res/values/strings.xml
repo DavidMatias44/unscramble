@@ -28,4 +28,5 @@
     <string name="play_again">Play Again</string>
     <string name="wrong_guess">Wrong Guess!</string>
     <string name="help">Help</string>
+    <string name="two_correct_answers">Two correct answers in a row!</string>
 </resources>

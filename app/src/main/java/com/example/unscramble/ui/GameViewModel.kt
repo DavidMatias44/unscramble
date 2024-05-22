@@ -1,8 +1,5 @@
 package com.example.unscramble.ui
 
-<<<<<<< HEAD
-class GameViewModel {
-=======
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -45,6 +42,14 @@ class GameViewModel : ViewModel() {
         userGuess = guessedWord
     }
 
+    fun updateCorrectAnswersInARow() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                twoCorrectAnswersInARow = false
+            )
+        }
+    }
+
     fun checkUserGuess() {
         var updatedScore: Int
         if (userGuess.equals(currentWord, ignoreCase = true)) {
@@ -56,10 +61,21 @@ class GameViewModel : ViewModel() {
             if (_uiState.value.correctAnswersInARow > 0 &&
                 _uiState.value.correctAnswersInARow % 2 == 0) {
                 updatedScore = _uiState.value.score.plus(TWO_CORRECT_SCORE_INCREASE)
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        twoCorrectAnswersInARow = true
+                    )
+                }
                 updateGameState(updatedScore)
             }
             updatedScore = _uiState.value.score.plus(CURRENT_SCORE_INCREASE)
             updateGameState(updatedScore)
+            _uiState.update {currentState ->
+                currentState.copy(
+                    currentWordCount = currentState.currentWordCount.inc()
+                )
+
+            }
         } else {
             _uiState.update { currentState ->
                 currentState.copy(
@@ -86,8 +102,7 @@ class GameViewModel : ViewModel() {
                 currentState.copy(
                     isGuessedWordWrong = false,
                     currentScrambledWord = pickRandomWordAndShuffle(),
-                    score = updatedScore,
-                    currentWordCount = currentState.currentWordCount.inc()
+                    score = updatedScore
                 )
             }
         }
@@ -123,5 +138,4 @@ class GameViewModel : ViewModel() {
         usedWords.clear()
         _uiState.value = GameUiState(currentScrambledWord = pickRandomWordAndShuffle())
     }
->>>>>>> david
 }

@@ -136,6 +136,9 @@ fun GameScreen(
             onPlayAgain = { gameViewModel.resetGame() }
         )
     }
+    if (gameUiState.twoCorrectAnswersInARow) {
+        TwoCorrectAnswersDialog()
+    }
 }
 
 @Composable
@@ -254,6 +257,35 @@ private fun FinalScoreDialog(
         confirmButton = {
             TextButton(onClick = onPlayAgain) {
                 Text(text = stringResource(R.string.play_again))
+            }
+        }
+    )
+}
+
+@Composable
+private fun TwoCorrectAnswersDialog (
+    gameViewModel: GameViewModel = viewModel(),
+    modifier: Modifier = Modifier
+) {
+    val gameUiState by gameViewModel.uiState.collectAsState()
+
+    AlertDialog(
+        onDismissRequest = {
+
+        },
+        title = { Text(text = stringResource(R.string.two_correct_answers)) },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    gameViewModel.updateCorrectAnswersInARow()
+                }
+            ) {
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { gameViewModel.updateCorrectAnswersInARow() }) {
+                Text(text = stringResource(R.string.exit))
             }
         }
     )
