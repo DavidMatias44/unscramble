@@ -57,6 +57,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.unscramble.R
 import com.example.unscramble.ui.theme.UnscrambleTheme
+import com.example.unscramble.data.MAX_NO_OF_WORDS
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 
 @Composable
 fun GameScreen(
@@ -230,11 +233,13 @@ fun GameLayout(
  */
 @Composable
 private fun FinalScoreDialog(
+    gameViewModel: GameViewModel = viewModel(),
     score: Int,
     onPlayAgain: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val activity = (LocalContext.current as Activity)
+    val gameUiState by gameViewModel.uiState.collectAsState()
 
     AlertDialog(
         onDismissRequest = {
@@ -243,7 +248,15 @@ private fun FinalScoreDialog(
             // onCloseRequest.
         },
         title = { Text(text = stringResource(R.string.congratulations)) },
-        text = { Text(text = stringResource(R.string.you_scored, score)) },
+
+        text = {
+            Column {
+                if (gameUiState.correctAnswers == MAX_NO_OF_WORDS) {
+                    Text(text = stringResource(R.string.perfect_score))
+                }
+                Text(text = stringResource(R.string.you_scored, score))
+            }
+        },
         modifier = modifier,
         dismissButton = {
             TextButton(

@@ -51,36 +51,30 @@ class GameViewModel : ViewModel() {
     }
 
     fun checkUserGuess() {
-        var updatedScore: Int
+        var extraScore: Int = 0
+
         if (userGuess.equals(currentWord, ignoreCase = true)) {
             _uiState.update { currentState ->
                 currentState.copy(
-                    correctAnswersInARow = currentState.correctAnswersInARow.inc()
+                    correctAnswers = currentState.correctAnswers.inc()
                 )
             }
-            if (_uiState.value.correctAnswersInARow > 0 &&
-                _uiState.value.correctAnswersInARow % 2 == 0) {
-                updatedScore = _uiState.value.score.plus(TWO_CORRECT_SCORE_INCREASE)
+            if (_uiState.value.correctAnswers > 0 &&
+                _uiState.value.correctAnswers % 2 == 0) {
+                extraScore = TWO_CORRECT_SCORE_INCREASE
                 _uiState.update { currentState ->
                     currentState.copy(
                         twoCorrectAnswersInARow = true
                     )
                 }
-                updateGameState(updatedScore)
             }
-            updatedScore = _uiState.value.score.plus(CURRENT_SCORE_INCREASE)
+            val updatedScore = _uiState.value.score.plus(CURRENT_SCORE_INCREASE + extraScore)
             updateGameState(updatedScore)
-            _uiState.update {currentState ->
-                currentState.copy(
-                    currentWordCount = currentState.currentWordCount.inc()
-                )
-
-            }
         } else {
             _uiState.update { currentState ->
                 currentState.copy(
                     isGuessedWordWrong = true,
-                    correctAnswersInARow = 0
+                    correctAnswers = 0
                 )
             }
         }
@@ -101,6 +95,7 @@ class GameViewModel : ViewModel() {
             _uiState.update { currentState ->
                 currentState.copy(
                     isGuessedWordWrong = false,
+                    currentWordCount = currentState.currentWordCount.inc(),
                     currentScrambledWord = pickRandomWordAndShuffle(),
                     score = updatedScore
                 )

@@ -29,4 +29,5 @@
     <string name="wrong_guess">Wrong Guess!</string>
     <string name="help">Help</string>
     <string name="two_correct_answers">Two correct answers in a row!</string>
+    <string name="perfect_score">PERFECT SCORE!</string>
 </resources>
