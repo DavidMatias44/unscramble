@@ -17,7 +17,11 @@
 package com.example.unscramble.data
 
 const val MAX_NO_OF_WORDS = 10
-const val SCORE_INCREASE = 20
+const val NORMAL_SCORE_INCREASE = 20
+const val HELP_SCORE_INCREASE = NORMAL_SCORE_INCREASE / 2
+const val TWO_CORRECT_SCORE_INCREASE = 50
+
+var CURRENT_SCORE_INCREASE = NORMAL_SCORE_INCREASE
 
 // Set with all the words for the Game
 val allWords: Set<String> =
