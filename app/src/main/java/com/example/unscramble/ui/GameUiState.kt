@@ -5,6 +5,8 @@ data class GameUiState(
     val currentWordCount: Int = 1,
     val score: Int = 0,
     val isGuessedWordWrong: Boolean = false,
+    val correctAnswersInARow: Int = 0,
+    val twoCorrectAnswersInARow: Boolean = false,
     val isGameOver: Boolean = false
 ) {
 }

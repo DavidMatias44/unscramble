@@ -98,7 +98,15 @@ fun GameScreen(
             verticalArrangement = Arrangement.spacedBy(mediumPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
+            Button(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = { gameViewModel.receiveHelp() }
+            ) {
+                Text(
+                    text = stringResource(R.string.help),
+                    fontSize = 16.sp
+                )
+            }
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = { gameViewModel.checkUserGuess() }
